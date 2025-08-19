@@ -100,6 +100,12 @@ export default function Table({
         >
           Add
         </Link>
+        <Link
+          className="bg-gray-500 hover:bg-gray-600 text-white py-2.5 px-2 rounded mr-2"
+          href="/"
+        >
+          Dashboard
+        </Link>
       </div>
     </div>
   );
