@@ -27,29 +27,36 @@ body {
 
 /* for Extra small (xs: < 576px)*/
 @media (max-width: 576px) {
-    html {
+  html {
     font-size: 8px;
   }
 
-  .bodyContact {
-  height:100%;
-  width: 100%;
-  background: #ff5e63;
-  background: linear-gradient(#ff9968, #ff5e63)  no-repeat;
-  padding-top: 4%;
-  padding-bottom:4%;
-  padding-left: 10%;
-  padding-right: 10%;
-}
+  .bodyHome {
+    background: #07013f;
+    background: linear-gradient(rgba(84, 222, 240, 0.333), #07013f);
+    height: 100vh;
+    width: 100vw;
+  }
 
-.formContact {
-  height:100%;
-  width:100%;  
-  margin: 0  auto;
-  background: #ffffff;
-  padding: 50px;
-  border-radius: 6px;
-}
+  .bodyContact {
+    height: 100%;
+    width: 100%;
+    background: #ff5e63;
+    background: linear-gradient(#ff9968, #ff5e63) no-repeat;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+
+  .formContact {
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 50px;
+    border-radius: 6px;
+  }
 }
 
 /* for Small (sm: ≥ 576px and < 768px)*/
@@ -58,25 +65,32 @@ body {
     font-size: 10px;
   }
 
-  .bodyContact {
-  height:100%;
-  width: 100%;
-  background: #ff5e63;
-  background: linear-gradient(#ff9968, #ff5e63)  no-repeat;
-  padding-top: 4%;
-  padding-bottom:4%;
-  padding-left: 20%;
-  padding-right: 20%;
-}
+  .bodyHome {
+    background: #07013f;
+    background: linear-gradient(rgba(84, 222, 240, 0.333), #07013f);
+    height: 100vh;
+    width: 100vw;
+  }
 
-.formContact {
-  height:100%;
-  width:100%;  
-  margin: 0  auto;
-  background: #ffffff;
-  padding: 50px;
-  border-radius: 6px;
-}
+  .bodyContact {
+    height: 100%;
+    width: 100%;
+    background: #ff5e63;
+    background: linear-gradient(#ff9968, #ff5e63) no-repeat;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+
+  .formContact {
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 50px;
+    border-radius: 6px;
+  }
 }
 
 /* for Medium (md: ≥ 768px and < 992px)*/
@@ -85,25 +99,32 @@ body {
     font-size: 12px;
   }
 
-  .bodyContact {
-  height:100%;
-  width: 100%;
-  background: #ff5e63;
-  background: linear-gradient(#ff9968, #ff5e63)  no-repeat;
-  padding-top: 4%;
-  padding-bottom:4%;
-  padding-left: 20%;
-  padding-right: 20%;
-}
+  .bodyHome {
+    background: #07013f;
+    background: linear-gradient(rgba(84, 222, 240, 0.333), #07013f);
+    height: 100vh;
+    width: 100vw;
+  }
 
-.formContact {
-  height:100%;
-  width:100%;  
-  margin: 0  auto;
-  background: #ffffff;
-  padding: 50px;
-  border-radius: 6px;
-}
+  .bodyContact {
+    height: 100%;
+    width: 100%;
+    background: #ff5e63;
+    background: linear-gradient(#ff9968, #ff5e63) no-repeat;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+
+  .formContact {
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 50px;
+    border-radius: 6px;
+  }
 }
 
 /* for Large (lg: ≥ 992px and < 1200px)*/
@@ -112,25 +133,32 @@ body {
     font-size: 14px;
   }
 
-  .bodyContact {
-  height:100%;
-  width: 100%;
-  background: #ff5e63;
-  background: linear-gradient(#ff9968, #ff5e63)  no-repeat;
-  padding-top: 4%;
-  padding-bottom:4%;
-  padding-left: 20%;
-  padding-right: 20%;
-}
+  .bodyHome {
+    background: #07013f;
+    background: linear-gradient(rgba(84, 222, 240, 0.333), #07013f);
+    height: 100vh;
+    width: 100vw;
+  }
 
-.formContact {
-  height:100%;
-  width:100%;  
-  margin: 0  auto;
-  background: #ffffff;
-  padding: 50px;
-  border-radius: 6px;
-}
+  .bodyContact {
+    height: 100%;
+    width: 100%;
+    background: #ff5e63;
+    background: linear-gradient(#ff9968, #ff5e63) no-repeat;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+
+  .formContact {
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 50px;
+    border-radius: 6px;
+  }
 }
 
 /* for Extra large (xl: ≥ 1200px)*/
@@ -139,23 +167,30 @@ body {
     font-size: 16px;
   }
 
-  .bodyContact {
-  height:100%;
-  width: 100%;
-  background: #ff5e63;
-  background: linear-gradient(#ff9968, #ff5e63)  no-repeat;
-  padding-top: 4%;
-  padding-bottom:4%;
-  padding-left: 20%;
-  padding-right: 20%;
-}
+  .bodyHome {
+    background: #07013f;
+    background: linear-gradient(rgba(84, 222, 240, 0.333), #07013f);
+    height: 100vh;
+    width: 100vw;
+  }
 
-.formContact {
-  height:100%;
-  width:100%;  
-  margin: 0  auto;
-  background: #ffffff;
-  padding: 50px;
-  border-radius: 6px;
-}
+  .bodyContact {
+    height: 100%;
+    width: 100%;
+    background: #ff5e63;
+    background: linear-gradient(#ff9968, #ff5e63) no-repeat;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+
+  .formContact {
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 50px;
+    border-radius: 6px;
+  }
 }
