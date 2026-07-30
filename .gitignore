@@ -3,6 +3,7 @@
 # dependencies
 /client/node_modules
 /client/.pnp
+/server/node_modules
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -12,6 +13,7 @@
 
 # testing
 /coverage
+/server/data
 
 # next.js
 /client/.next/
@@ -19,6 +21,7 @@
 
 # production
 /client/build
+server/dist
 
 # misc
 .DS_Store
@@ -42,3 +45,4 @@ next-env.d.ts
 
 #developing
 /client/.vscode
+/server/.vscode
