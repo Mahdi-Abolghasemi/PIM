@@ -19,7 +19,7 @@ A step by step guide that will tell you how to get the development environment u
 
 ```
 $ First step
-Nmp install
+Npm install
 $ Final step
 Npm run dev
 ```
