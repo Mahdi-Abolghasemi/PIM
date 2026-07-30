@@ -1,13 +1,13 @@
-type contact_type = {
-    id: number,
+export type contact_type = {
+    id: string,
     firstName: string,
     lastName: string,
     details: contactDetails[]
 }
 
-type contactDetails = {
-    id: number,
-    contactId: number,
-    contactType: string,
+export type contactDetails = {
+    id: string,
+    contactId: string,
+    contactType: number,
     value: string
 }

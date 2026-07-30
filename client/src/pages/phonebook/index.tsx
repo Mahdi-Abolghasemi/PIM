@@ -1,52 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Contact_service } from "@/services/phonebook/contact_service";
 import Table from "@/components/phonebook/table";
 import Search from "@/components/phonebook/search";
 import PaginationControls from "@/components/phonebook/paginationControls";
+import { contact_type } from "@/types/phonebook/contacts_type";
+import { search_type } from "@/types/phonebook/search_type";
 
 export default function Main() {
-  const [objContact, setobjContact] = useState(new Contact_service());
-  const [objData, setData] = useState(objContact.GetAll());
-  const [allData, setAllData] = useState(objData);
+  const objContact: Contact_service = new Contact_service();
+  const [allData, setAllData] = useState<contact_type[]>([]);
   const fields = ["First Name", "Last Name"];
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [perPage, setPerPage] = useState<number>(5);
   const pageSizes: number[] = [5, 10, 25, 100];
-  const [sort, setSort] = useState("First Name");
-  const [offset, setOffset] = useState(0);
+  const [sort, setSort] = useState<string>("First Name");
+  const [offset, setOffset] = useState<number>(0);
 
-  const sliceData = (): any[] => {
+  useEffect(() => {
+    objContact.GetAll().then((res) => setAllData(res));
+  }, []);
+
+  const sliceData = (): contact_type[] => {
     return allData.slice(offset, offset + perPage);
   };
 
-  const deleteData = (id: number): void => {
-    setData(objData.filter((i) => i.id !== id));
+  const deleteData = (id: string): void => {
+    objContact.Delete(id);
     setAllData(allData.filter((i) => i.id !== id));
   };
 
   const search = (name: string, details: string): void => {
-    if (name !== "") {
-      setAllData(
-        objData.filter((i) => i.firstName.concat(" ", i.lastName).match(name))
-      );
-      setOffset(0);
-      setCurrentPage(1);
-    } else if (details !== "") {
-      let contatId = [0];
-      objData.map((i) =>
-        i.details.map((j) =>
-          j.value === details ? contatId.push(j.contactId) : 0
-        )
-      );
-
-      setAllData(objData.filter((i) => contatId.includes(i.id)));
-      setOffset(0);
-      setCurrentPage(1);
-    } else {
-      setAllData(objData);
-      setOffset(0);
-      setCurrentPage(1);
-    }
+    const searchData: search_type = { name, details };
+    objContact.Search(searchData).then((res) => setAllData(res));
   };
 
   const getPageCount = (): number => {
@@ -66,16 +51,16 @@ export default function Main() {
     if (sort === "First Name") {
       setAllData(
         allData.sort((a, b) =>
-          a.firstName < b.firstName ? 1 : b.firstName < a.firstName ? -1 : 0
-        )
+          a.firstName < b.firstName ? 1 : b.firstName < a.firstName ? -1 : 0,
+        ),
       );
     }
 
     if (sort === "Last Name") {
       setAllData(
         allData.sort((a, b) =>
-          a.lastName < b.lastName ? 1 : b.lastName < a.lastName ? -1 : 0
-        )
+          a.lastName < b.lastName ? 1 : b.lastName < a.lastName ? -1 : 0,
+        ),
       );
     }
   };

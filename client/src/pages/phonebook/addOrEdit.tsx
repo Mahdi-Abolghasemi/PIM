@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Contact_service } from "@/services/phonebook/contact_service";
+import { contact_type, contactDetails } from "@/types/phonebook/contacts_type";
 import { contactType_enum } from "@/enumerations/phonebook/contactType_enum";
+import { v4 } from "uuid";
 
 export default function AddOrEdit() {
   const router = useRouter();
-  const [id, setId] = useState(Number(router.query.id));
-  const [pageTitle, setPageTitle] = useState(
-    id > 0 ? "Edit Contact" : "Create New Contact"
-  );
-  const [objContact, setobjContact] = useState(new Contact_service());
-  const [item, setItem] = useState(objContact.Get(id));
-  const [formData, setFormData] = useState({
-    id: 0,
+  const pageTitle: string =
+    router.query.id !== "" ? "Edit Contact" : "Create New Contact";
+  const objContact: Contact_service = new Contact_service();
+
+  const [formData, setFormData] = useState<contact_type>({
+    id: "",
     firstName: "",
     lastName: "",
-    details: [{ id: 0, contactId: 0, contactType: "", value: "" }],
+    details: [],
   });
 
-  const [details, setDetails] = useState({
-    id: 0,
-    contactId: 0,
-    contactType: "",
+  const [details, setDetails] = useState<contactDetails>({
+    id: "",
+    contactId: "",
+    contactType: 0,
     value: "",
   });
 
@@ -36,10 +36,8 @@ export default function AddOrEdit() {
   });
 
   useEffect(() => {
-    if (item != null) {
-      setFormData(item);
-    } else {
-      setFormData({ ...formData, details: [] });
+    if (router.query.id !== "") {
+      objContact.Get(String(router.query.id)).then((res) => setFormData(res));
     }
   }, []);
 
@@ -58,23 +56,23 @@ export default function AddOrEdit() {
   };
 
   const changeDataSelect = (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLSelectElement>,
   ): void => {
     switch (event.target.name) {
       case "contactType":
-        setDetails({ ...details, contactType: event.target.value });
+        setDetails({ ...details, contactType: Number(event.target.value) });
         break;
     }
   };
 
   const addDetails = (): void => {
-    let error = 0;
-    let _fieldValidationsDetails = {
+    let error: number = 0;
+    const _fieldValidationsDetails = {
       type: true,
       value: true,
     };
 
-    if (details.contactType === "") {
+    if (details.contactType === 0) {
       _fieldValidationsDetails.type = false;
       error++;
     }
@@ -87,21 +85,26 @@ export default function AddOrEdit() {
     setFieldValidationsDetails(_fieldValidationsDetails);
 
     if (error === 0) {
-      const baseId =
-        formData.details.length > 0
-          ? formData.details[formData.details.length - 1].id
-          : 0;
-      let newId = baseId + 1;
-
-      setDetails({ ...details, id: newId, contactId: formData.id });
-      setFormData({
-        ...formData,
-        details: formData.details.concat(details),
-      });
+      if (router.query.id !== "") {
+        setDetails({
+          ...details,
+          id: v4(),
+          contactId: String(router.query.id),
+        });
+        setFormData({
+          ...formData,
+          details: formData.details.concat(details),
+        });
+      } else {
+        setFormData({
+          ...formData,
+          details: formData.details.concat(details),
+        });
+      }
     }
   };
 
-  const deleteItem = (id: number): void => {
+  const deleteItem = (id: string): void => {
     setFormData({
       ...formData,
       details: formData.details.filter((i) => i.id !== id),
@@ -109,13 +112,13 @@ export default function AddOrEdit() {
   };
 
   const save = (): void => {
-    let error = 0;
-    let _fieldValidations = {
+    let error: number = 0;
+    const _fieldValidations = {
       firstName: true,
       lastName: true,
     };
 
-    let _fieldValidationsDetails = {
+    const _fieldValidationsDetails = {
       type: true,
       value: true,
     };
@@ -140,9 +143,14 @@ export default function AddOrEdit() {
     setFieldValidationsDetails(_fieldValidationsDetails);
 
     if (error === 0) {
-      if (id > 0) {
+      if (router.query.id !== "") {
         objContact.Edit(formData);
       } else {
+        const id: string = v4();
+        const contact: contact_type = formData;
+        contact.id = id;
+        contact.details.map((i) => ((i.id = v4()), (i.contactId = id)));
+        setFormData(contact);
         objContact.Add(formData);
       }
       router.push("/phonebook");
@@ -217,8 +225,17 @@ export default function AddOrEdit() {
               aria-label="Contact Type"
             >
               <option value=""></option>
-              {Object.values(contactType_enum).map((i) => (
-                <option value={i}>{i}</option>
+              {Object.keys(contactType_enum).map((key, index) => (
+                <option
+                  value={
+                    Object.values(contactType_enum)[
+                      Object.keys(contactType_enum).indexOf(key)
+                    ]
+                  }
+                  key={index}
+                >
+                  {key}
+                </option>
               ))}
             </select>
             <p
@@ -240,7 +257,7 @@ export default function AddOrEdit() {
               }`}
               name="contactValue"
               type={
-                details.contactType === contactType_enum.EMAIL
+                details.contactType === contactType_enum.Email
                   ? "text"
                   : "number"
               }
@@ -285,18 +302,24 @@ export default function AddOrEdit() {
               </tr>
             </thead>
             <tbody>
-              {formData.details.map((i) => (
-                <tr className="flex">
+              {formData.details.map((item, index) => (
+                <tr className="flex" key={index}>
                   <td className="text-center border border-gray-300 pl-1 py-2.5 w-3/5">
-                    {i.contactType}
+                    {
+                      Object.keys(contactType_enum)[
+                        Object.values(contactType_enum).indexOf(
+                          item.contactType,
+                        )
+                      ]
+                    }
                   </td>
                   <td className="text-center border border-gray-300 pl-1 py-2.5 w-3/5">
-                    {i.value}
+                    {item.value}
                   </td>
                   <td className="border border-gray-300 w-1/5 flex justify-center">
                     <button
                       className="bg-red-600 hover:bg-red-700 text-white py-1.5 px-2 rounded m-2"
-                      onClick={() => deleteItem(i.id)}
+                      onClick={() => deleteItem(item.id)}
                     >
                       Delete
                     </button>

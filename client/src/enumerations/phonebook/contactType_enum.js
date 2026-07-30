@@ -1,7 +1,7 @@
 export const contactType_enum = {
-  MOBILE: "Mobile",
-  HOME: "Home",
-  WORK: "Work",
-  FAX: "Fax",
-  EMAIL: "Email",
+  Mobile: 1,
+  Home: 2,
+  Work: 3,
+  Fax: 4,
+  Email: 5,
 };

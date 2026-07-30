@@ -1,55 +1,47 @@
-import contact_data from "@/data/phonebook/data.json";
+import { restDataSource } from "../restDataSource";
+import { contact_type } from "@/types/phonebook/contacts_type";
+import { search_type } from "@/types/phonebook/search_type";
 
-let allData: contact_type[];
 
 export class Contact_service {
+    private objRestDataSource: restDataSource<contact_type, search_type>;
+    private allData: contact_type[];
     constructor() {
-        allData = contact_data;
+        this.allData = [];
+        this.objRestDataSource = new restDataSource("contact");
     }
 
-    GetAll(): contact_type[] {
-        return allData;
+    async GetAll(): Promise<contact_type[]> {
+        await this.objRestDataSource.GetAll().then(res => this.allData = res);
+        return this.allData;
     }
 
-    Get(id: number): contact_type | null {
-        if (id > 0) {
-            let rowIndex: number = -1;
-            allData.forEach((value, index) => { value.id === id ? rowIndex = index : "" })
-            return allData[rowIndex]
-        }
-        else {
-            return null;
-        }
-
+    async Search(searchData: search_type): Promise<contact_type[]> {
+        await this.objRestDataSource.Search(searchData).then(res => this.allData = res);
+        return this.allData;
     }
 
-    Add(data: contact_type): boolean {
-        try {
-            allData.concat(data)
-            return true;
-        }
-        catch {
-            return false;
-        }
+    async Get(id: string): Promise<contact_type> {
+        let result: contact_type = <contact_type>{};
+        await this.objRestDataSource.Get(id).then(res => result = res);
+        return result;
     }
 
-    Edit(data: contact_type): boolean {
-        try {
-            allData = allData.map(i => i.id === data.id ? data : i)
-            return true
-        }
-        catch {
-            return false;
-        }
+    async Add(data: contact_type): Promise<boolean> {
+        let result: boolean = false;
+        await this.objRestDataSource.Add(data).then(res => result = res);
+        return result;
     }
 
-    Delete(id: number): boolean {
-        try {
-            allData.filter(i => i.id !== id);
-            return true;
-        }
-        catch {
-            return false;
-        }
+    async Edit(data: contact_type): Promise<boolean> {
+        let result: boolean = false;
+        this.objRestDataSource.Edit(data).then(res => result = res);
+        return result;
+    }
+
+    async Delete(id: string): Promise<boolean> {
+        let result: boolean = false;
+        this.objRestDataSource.Delete(id).then(res => result = res);
+        return result;
     }
 }

@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Contact_service } from "@/services/phonebook/contact_service";
 import Link from "next/link";
+import { contact_type } from "@/types/phonebook/contacts_type";
+import { contactType_enum } from "@/enumerations/phonebook/contactType_enum";
 
 export default function Details() {
   const router = useRouter();
-  const [id, setId] = useState(Number(router.query.id));
-  const [objContact, setobjContact] = useState(new Contact_service());
-  const [item, setItem] = useState(objContact.Get(id));
+  const id: string = String(router.query.id);
+  const objContact: Contact_service = new Contact_service();
+
+  const [item, setItem] = useState<contact_type>();
+
+  useEffect(() => {
+    objContact.Get(id).then((res) => setItem(res));
+  }, []);
 
   return (
     <div>
@@ -35,17 +42,22 @@ export default function Details() {
                 {item?.lastName}
               </td>
             </tr>
-            {item?.details.map((i) => (
+            {item?.details.map((value, index) => (
               <tr
                 className={`grid grid-cols-2 ${
-                  i.id % 2 == 1 ? "bg-gray-100" : "bg-white"
+                  index % 2 == 1 ? "bg-gray-100" : "bg-white"
                 }`}
+                key={index}
               >
                 <td className="border border-gray-300 pl-1 py-2.5">
-                  {i.contactType}
+                  {
+                    Object.keys(contactType_enum)[
+                      Object.values(contactType_enum).indexOf(value.contactType)
+                    ]
+                  }
                 </td>
                 <td className="border border-gray-300 pl-1 font-bold">
-                  {i.value}
+                  {value.value}
                 </td>
               </tr>
             ))}

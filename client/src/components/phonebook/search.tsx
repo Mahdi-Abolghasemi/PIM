@@ -5,8 +5,8 @@ type searchProps = {
 };
 
 export default function Search({ searchCallBack }: searchProps) {
-  const [name, setName] = useState("");
-  const [details, setDetails] = useState("");
+  const [name, setName] = useState<string>("");
+  const [details, setDetails] = useState<string>("");
 
   const setValues = (event: React.ChangeEvent<HTMLInputElement>): void => {
     switch (event.target.name) {

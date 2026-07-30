@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import { Contact_service } from "@/services/phonebook/contact_service";
-import { confirmAlert } from "react-confirm-alert";
+import React from "react";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import Link from "next/link";
+import { contact_type } from "@/types/phonebook/contacts_type";
 
 type TableProps = {
-  dataSource: any[];
-  columns: any[];
-  deleteCallBack: (id: number) => void;
+  dataSource: contact_type[];
+  columns: string[];
+  deleteCallBack: (id: string) => void;
 };
 
 export default function Table({
@@ -15,26 +14,6 @@ export default function Table({
   columns,
   deleteCallBack,
 }: TableProps) {
-  const [objContact, setobjContact] = useState(new Contact_service());
-
-  function deleteData(id: number): void {
-    confirmAlert({
-      title: "Confirm to Delete",
-      message: "Are you sure to do this.",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: () => {
-            if (objContact.Delete(id)) deleteCallBack(id);
-          },
-        },
-        {
-          label: "No",
-        },
-      ],
-    });
-  }
-
   return (
     <div className="ml-3 mr-3 mx-auto">
       <table className="w-full text-left border-collapse border border-gray-400">
@@ -43,26 +22,29 @@ export default function Table({
         </caption>
         <thead className="border-b-2 size-8">
           <tr>
-            {columns.map((i) => (
-              <th className="border border-gray-300 pl-1">{i}</th>
+            {columns.map((value, index) => (
+              <th className="border border-gray-300 pl-1" key={index}>
+                {value}
+              </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {dataSource.map((i) => (
+          {dataSource.map((value, index) => (
             <tr
               className={`size-12 ${
-                i.id % 2 == 1 ? "bg-gray-100" : "bg-white"
+                index % 2 == 1 ? "bg-gray-100" : "bg-white"
               }`}
+              key={index}
             >
-              <td className="border border-gray-300 pl-1">{i.firstName}</td>
-              <td className="border border-gray-300 pl-1">{i.lastName}</td>
+              <td className="border border-gray-300 pl-1">{value.firstName}</td>
+              <td className="border border-gray-300 pl-1">{value.lastName}</td>
               <td>
                 <Link
                   className="bg-gray-500 hover:bg-gray-600 text-white py-2.5 px-2 rounded m-2"
                   href={{
                     pathname: "/phonebook/details",
-                    query: { id: i.id },
+                    query: { id: value.id },
                   }}
                   as={"/phonebook/details"}
                 >
@@ -72,7 +54,7 @@ export default function Table({
                   className="bg-yellow-400 hover:bg-yellow-500 text-black py-2.5 px-2 rounded"
                   href={{
                     pathname: "/phonebook/addOrEdit",
-                    query: { id: i.id },
+                    query: { id: value.id },
                   }}
                   as="/phonebook/addOrEdit"
                 >
@@ -80,7 +62,7 @@ export default function Table({
                 </Link>
                 <button
                   className="bg-red-600 hover:bg-red-700 text-white py-1.5 px-2 rounded ml-2"
-                  onClick={() => deleteData(i.id)}
+                  onClick={() => deleteCallBack(value.id)}
                 >
                   Delete
                 </button>
@@ -94,7 +76,7 @@ export default function Table({
           className="bg-blue-500 hover:bg-blue-600 text-white py-2.5 px-2 rounded mr-2"
           href={{
             pathname: "/phonebook/addOrEdit",
-            query: { id: 0 },
+            query: { id: "" },
           }}
           as="/phonebook/addOrEdit"
         >
@@ -102,7 +84,7 @@ export default function Table({
         </Link>
         <Link
           className="bg-gray-500 hover:bg-gray-600 text-white py-2.5 px-2 rounded mr-2"
-          href="/"
+          href="/dashboard"
         >
           Dashboard
         </Link>
