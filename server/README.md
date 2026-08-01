@@ -30,8 +30,9 @@ DATABASE_NAME="Your data base name"
 USER_NAME="Your data base user name"
 PASSWORD="Your data base password"
 FRONTEND_ADDRESS="Your frontend server IP"
-JWT_SECRET_KEY="Your secret key for create JWT"
-
+JWT_SECRET_KEY="Your secret key for create JWT token"
+$ Third step
+Open the browser and go to the address: "Your server IP/api/auth/registration"
 $ Final step
 Npm start
 ```
